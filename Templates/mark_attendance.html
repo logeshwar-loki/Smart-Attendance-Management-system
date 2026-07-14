@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Mark Attendance{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Mark Attendance</h2>
+
+<div class="card">
+    <div class="card-header">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-auto">
+                <label class="form-label">Select Date</label>
+                <input type="date" class="form-control" name="date" value="{{ selected_date }}" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Load Students</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <input type="hidden" name="date" value="{{ selected_date }}">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.id }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.username }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="student_{{ student.id }}" id="p_{{ student.id }}" value="Present" checked>
+                                    <label class="btn btn-outline-success" for="p_{{ student.id }}">Present</label>
+                                    
+                                    <input type="radio" class="btn-check" name="student_{{ student.id }}" id="a_{{ student.id }}" value="Absent">
+                                    <label class="btn btn-outline-danger" for="a_{{ student.id }}">Absent</label>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg mt-3">Save Attendance</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
